@@ -3,6 +3,8 @@ import inquirer from "inquirer";
 import CEP from "./zipCode.ts";
 import Weather from "./weather.ts";
 import { availableOptions } from "./options/index.ts";
+import logger from "../observability/logger.ts";
+import { measureAsync, trackCommand } from "../modules/observability.ts";
 
 function welcome() {
   const title = chalkAnimation.rainbow("Sejam ben-vindos ao Chatbot!");
@@ -13,6 +15,8 @@ function welcome() {
 }
 
 async function menu() {
+  logger.info("Iniciando o menu principal...");
+
   const { selectedOption } = await inquirer.prompt({
     type: "list",
     name: "selectedOption",
@@ -20,8 +24,19 @@ async function menu() {
     choices: availableOptions,
   });
 
+  trackCommand(selectedOption);
+
   if (selectedOption === "weather_command") {
-    await Weather.getWeatherCommand();
+    await measureAsync(
+      "weather_command",
+      async () => {
+        await Weather.getWeatherCommand();
+      },
+      {
+        command: "weather_command",
+      }
+    );
+
     const { searchAnotherCity } = await inquirer.prompt([
       {
         type: "confirm",
@@ -32,11 +47,24 @@ async function menu() {
     ]);
     if (searchAnotherCity) {
       console.clear();
-      await Weather.getWeatherCommand();
+      trackCommand("repeat_weather_command");
+      await measureAsync(
+        "repeat_weather_command",
+        async () => {
+          await Weather.getWeatherCommand();
+        },
+        { command: "weather", repeated: true }
+      );
     }
     return menu();
   } else if (selectedOption === "zip_code_command") {
-    await CEP.getCEPInfoCommand();
+    await measureAsync(
+      "zip_code_command",
+      async () => {
+        await CEP.getCEPInfoCommand();
+      },
+      { command: "zip_code" }
+    );
     const { searchAnotherCEP } = await inquirer.prompt([
       {
         type: "confirm",
@@ -47,12 +75,24 @@ async function menu() {
     ]);
     if (searchAnotherCEP) {
       console.clear();
-      await CEP.getCEPInfoCommand();
+      trackCommand("repeat_zip_code_command");
+      await measureAsync(
+        "repeat_zip_code_command",
+        async () => {
+          await CEP.getCEPInfoCommand();
+        },
+        { command: "zip_code", repeated: true }
+      );
     }
-    menu();
+    return menu();
   } else if (selectedOption === "search_zip_code_command") {
-    await CEP.searchCEPCommand();
-
+    await measureAsync(
+      "search_zip_code_command",
+      async () => {
+        await CEP.searchCEPCommand();
+      },
+      { command: "search_zip_code" }
+    );
     const { searchAnotherCEP } = await inquirer.prompt([
       {
         type: "confirm",
@@ -63,16 +103,24 @@ async function menu() {
     ]);
     if (searchAnotherCEP) {
       console.clear();
-      await CEP.searchCEPCommand();
+      trackCommand("repeat_search_zip_code_command");
+      await measureAsync(
+        "repeat_search_zip_code_command",
+        async () => {
+          await CEP.searchCEPCommand();
+        },
+        { command: "search_zip_code", repeated: true }
+      );
     }
-    menu();
+    return menu();
   } else if (selectedOption === "exit") {
+    logger.info("User exiting application");
     console.log("Saindo...");
     process.exit(0);
   } else if (selectedOption === "settings") {
-    // await settingsCommand();
+    logger.info("Settings menu requested (not implemented)");
     console.log("Configurações ainda não implementadas.");
-    menu();
+    return menu();
   }
 }
 
