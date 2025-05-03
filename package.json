@@ -21,7 +21,10 @@
     "chalk-animation": "^2.0.3",
     "inquirer": "^12.6.0",
     "nanospinner": "^1.2.2",
-    "typescript": "^5.8.3"
+    "performance-now": "^2.1.0",
+    "pino": "^9.6.0",
+    "typescript": "^5.8.3",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/chalk-animation": "^1.6.3",
