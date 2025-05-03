@@ -1,7 +1,7 @@
 import axios from "axios";
 import now from "performance-now";
-import { recordApiCall } from "../logs/apiMetrics.ts";
-import logger from "../logs/logger.ts";
+import { recordApiCall } from "./metrics.ts";
+import logger from "./logger.ts";
 
 /**
  * Configure axios interceptors for API monitoring
