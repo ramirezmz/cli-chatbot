@@ -1,5 +1,5 @@
 import axios from "axios";
-import { WeatherData } from "../types/index.ts";
+import type { WeatherData } from "../types/index.ts";
 const BASE_URL = "https://api.open-meteo.com/v1/forecast";
 const HOURLY = "temperature_2m";
 

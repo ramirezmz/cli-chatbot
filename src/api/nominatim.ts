@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NominatimResponse } from "../types/index.ts";
+import type { NominatimResponse } from "../types/index.ts";
 
 const BASE_URL = "https://nominatim.openstreetmap.org/search";
 
