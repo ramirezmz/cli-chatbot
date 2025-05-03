@@ -1,0 +1,9 @@
+{
+  "name": "cli-chatbot",
+  "version": "1.0.0",
+  "description": "Chat bot funcional, com base em uma máquina de estados simples, capaz de interagir com o usuário, coletar informações e consultar APIs públicas externas.",
+  "main": "index.js",
+  "repository": "https://github.com/ramirezmz/cli-chatbot",
+  "author": "ramirezmz",
+  "license": "MIT"
+}
