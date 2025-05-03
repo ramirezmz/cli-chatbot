@@ -1,11 +1,9 @@
-import Commands from "./commands/index.ts";
+import { initCli } from "./modules/cli.ts";
+import { initObservability } from "./modules/observability.ts";
 
-function main() {
-  console.clear();
-  Commands.welcome();
-  setTimeout(() => {
-    Commands.menu();
-  }, 1000);
+async function main() {
+  initObservability();
+  await initCli();
 }
 
 main();
