@@ -31,7 +31,7 @@ export async function getWeather(
             error instanceof Error ? error.message : "Unknown error"
           }`
         );
-        throw error; // Re-throw so UI can handle the error
+        throw error;
       }
     },
     { latitude, longitude }

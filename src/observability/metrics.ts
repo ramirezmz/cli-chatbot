@@ -1,6 +1,5 @@
 import logger from "./logger.ts";
 
-// Store metrics about API calls
 interface ApiMetric {
   endpoint: string;
   totalCalls: number;
@@ -10,7 +9,6 @@ interface ApiMetric {
   averageResponseTime: number;
 }
 
-// In-memory metrics store
 const apiMetrics = new Map<string, ApiMetric>();
 
 /**
@@ -33,7 +31,6 @@ export function recordApiCall(
     averageResponseTime: 0,
   };
 
-  // Update metrics
   metrics.totalCalls += 1;
   metrics.totalResponseTime += responseTime;
   metrics.averageResponseTime = metrics.totalResponseTime / metrics.totalCalls;
@@ -44,10 +41,8 @@ export function recordApiCall(
     metrics.failedCalls += 1;
   }
 
-  // Store updated metrics
   apiMetrics.set(endpoint, metrics);
 
-  // Log the API call
   logger.http({
     message: `API call to ${endpoint} completed in ${responseTime.toFixed(
       2

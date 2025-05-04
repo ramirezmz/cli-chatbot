@@ -1,7 +1,6 @@
 import now from "performance-now";
 import logger from "./logger.ts";
 
-// Store the start times of operations
 const timers = new Map<string, number>();
 
 /**
@@ -31,7 +30,6 @@ export function endTimer(
   const duration = now() - startTime;
   timers.delete(operationName);
 
-  // Log the duration along with any additional info
   logger.info({
     message: `Operation ${operationName} completed in ${duration.toFixed(2)}ms`,
     operation: operationName,

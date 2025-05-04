@@ -20,7 +20,6 @@ export async function searchPlaceInformation(
             limit: 10,
           },
           headers: {
-            // Add a user agent as required by Nominatim's usage policy
             "User-Agent": "CLI-Chatbot/1.0",
           },
         });

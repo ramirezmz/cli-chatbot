@@ -15,12 +15,10 @@ interface SessionMetrics {
   duration?: number;
 }
 
-// In-memory analytics store
 const commandMetrics = new Map<string, CommandMetrics>();
 const sessions = new Map<string, SessionMetrics>();
 const analyticsDir = path.join(process.cwd(), "analytics");
 
-// Create analytics directory if it doesn't exist
 if (!fs.existsSync(analyticsDir)) {
   fs.mkdirSync(analyticsDir, { recursive: true });
 }
@@ -78,7 +76,6 @@ export function endSession(sessionId: string): void {
     ),
   });
 
-  // Save session data to file
   const sessionData = {
     sessionId,
     startTime: session.startTime,
@@ -109,7 +106,6 @@ export function endSession(sessionId: string): void {
  * @param command Command used
  */
 export function recordCommandUsage(sessionId: string, command: string): void {
-  // Update session metrics
   const session = sessions.get(sessionId);
   if (session) {
     const currentCount = session.commandsUsed.get(command) || 0;
@@ -118,7 +114,6 @@ export function recordCommandUsage(sessionId: string, command: string): void {
     logger.warn(`Recorded command for non-existent session: ${sessionId}`);
   }
 
-  // Update overall command metrics
   const metrics = commandMetrics.get(command) || {
     command,
     totalUsage: 0,
