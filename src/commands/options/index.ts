@@ -6,11 +6,11 @@ export const availableOptions = [
     value: "weather_command",
   },
   {
-    name: "Consultar CEP",
+    name: "Consultar endereço por CEP",
     value: "zip_code_command",
   },
   {
-    name: "Pesquisar CEP",
+    name: "Pesquisar meu CEP",
     value: "search_zip_code_command",
   },
   new inquirer.Separator(),
